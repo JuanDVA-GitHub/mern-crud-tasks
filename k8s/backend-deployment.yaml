@@ -1,34 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mern-backend
+  name: backend-deployment
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: mern-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: mern-backend
+        app: backend
     spec:
       containers:
-      - name: backend
-        image: mern-backend
-        ports:
-        - containerPort: 4000
-        env:
-        - name: MONGODB_URI
-          value: mongodb://mongo:27017/mern-crud
+        - name: backend
+          image: mern-backend
+          ports:
+            - containerPort: 4000
+          env:
+            - name: MONGO_URI
+              value: mongodb://mongo-service:27017/mernapp
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mern-backend
+  name: backend-service
 spec:
   selector:
-    app: mern-backend
+    app: backend
   ports:
-  - port: 4000
-    targetPort: 4000
-  type: ClusterIP
+    - port: 4000
+      targetPort: 4000
